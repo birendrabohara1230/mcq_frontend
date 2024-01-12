@@ -4,3 +4,12 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "*"
     Access-Control-Allow-Methods = "*"
+
+
+
+# Redirects configuration
+[[redirects]]
+  # Redirects all requests to the index.html file for client-side routing
+  from = "/*"
+  to = "/index.html"
+  status = 200
