@@ -63,7 +63,7 @@ export default function Question() {
         const testEndsTime = today.format('ddd, MMM, YYYY, hh:mm:ss A')
 
         try {
-            const response = await axios.post("http://localhost:3000/questions/submittedAns", {
+            const response = await axios.post(`${base_url}/questions/submittedAns`, {
                 selectedAnswers,
                 testStartsTime,
                 testEndsTime,
