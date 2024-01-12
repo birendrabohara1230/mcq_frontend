@@ -14,7 +14,7 @@ function Login() {
                 password,
             }, { withCredentials: true, })
             const data = response.data
-            document.cookie = `accessToken=${data.accessToken}; path=/  SameSite="None"`
+            // document.cookie = `accessToken=${data.accessToken}; path=/  SameSite="None"`
             navigate("/home")
         } catch (error) {
             setFlag(true)
