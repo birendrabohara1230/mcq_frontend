@@ -17,7 +17,7 @@ export default function AdminLogin() {
             await axios.post(`${base_url}/admin/signin`, {
                 username,
                 password,
-            })
+            }, {withCredentials: true})
                 .then(response => {
                     document.cookie = `adminAccessToken=${response.data.adminAccessToken}; path=/`
                     navigate("/adminHome")
