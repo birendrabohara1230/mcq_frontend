@@ -19,7 +19,7 @@ export default function AdminLogin() {
                 password,
             }, {withCredentials: true})
                 .then(response => {
-                    document.cookie = `adminAccessToken=${response.data.adminAccessToken}; path=/`
+                    // document.cookie = `adminAccessToken=${response.data.adminAccessToken}; path=/`
                     navigate("/adminHome")
                 })
                 .catch(error => {
