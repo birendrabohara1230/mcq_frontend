@@ -67,7 +67,7 @@ export function Home() {
 
 
     function handleLogout() {
-        axios.post(`${base_url}/user/logout`, { withCredentials: true })
+        axios.post(`${base_url}/user/logout`,{},{ withCredentials: true })
             .then(function (response) {
                 navigate("/")
             })
