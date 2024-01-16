@@ -45,7 +45,7 @@ export function Home() {
             }, { withCredentials: true })
             setButtonClicked(true)
         } else {
-            alert(`At least one topic.`)
+            alert(`At least one topic must be selected.`)
             return;
         }
     }
@@ -67,7 +67,7 @@ export function Home() {
 
     async function handleLogout() {
         try {
-            await axios.post(`${base_url}/user/logout`)
+            await axios.post(`${base_url}/user/logout`, {withCredentials: true})
             navigate("/")
         } catch (error) {
             console.log(error)
