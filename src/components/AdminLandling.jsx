@@ -39,13 +39,13 @@ export default function Students() {
                             <table className="min-w-full text-left text-sm font-light">
                                 <thead className="border-b font-medium dark:border-neutral-500">
                                     <tr>
-                                        <th scope="col" className="px-3 py-4">ID</th>
-                                        <th scope="col" className="px-3 py-4">Full Name</th>
-                                        <th scope="col" className="px-3 py-4">Grade</th>
-                                        <th scope="col" className="px-3 py-4">Gender</th>
-                                        <th scope="col" className="px-3 py-4">Test Score</th>
-                                        <th scope="col" className="px-3 py-4">Starts</th>
-                                        <th scope="col" className="px-3 py-4">Ends</th>
+                                        <th scope="col" className="px-2 py-2">ID</th>
+                                        <th scope="col" className="px-2 py-2">Full Name</th>
+                                        <th scope="col" className="px-2 py-2">Grade</th>
+                                        <th scope="col" className="px-2 py-2">Gender</th>
+                                        <th scope="col" className="px-2 py-2">Test Score</th>
+                                        <th scope="col" className="px-2 py-2">Starts</th>
+                                        <th scope="col" className="px-2 py-2">Ends</th>
                                     </tr>
                                 </thead>
 
@@ -55,23 +55,23 @@ export default function Students() {
                                             <tr key={`${user._id}-${test._id}`} className="border-b dark:border-neutral-500">
                                                 {index === 0 && (
                                                     <>
-                                                        <td className="whitespace-nowrap px-3 py-4">{counter++}</td>
-                                                        <td className="whitespace-nowrap px-3 py-4">{user.fullName}</td>
-                                                        <td className="whitespace-nowrap px-3 py-4">{user.grade}</td>
-                                                        <td className="whitespace-nowrap px-3 py-4">{user.gender}</td>
+                                                        <td className="whitespace-nowrap px-2 py-2">{counter++}</td>
+                                                        <td className="whitespace-nowrap px-2 py-2">{user.fullName}</td>
+                                                        <td className="whitespace-nowrap px-2 py-2">{user.grade}</td>
+                                                        <td className="whitespace-nowrap px-2 py-2">{user.gender}</td>
                                                     </>
                                                 )}
                                                 {index !== 0 && (
                                                     <>
-                                                        <td className="whitespace-nowrap px-3 py-4"></td>
-                                                        <td className="whitespace-nowrap px-3 py-4"></td>
-                                                        <td className="whitespace-nowrap px-3 py-4"></td>
-                                                        <td className="whitespace-nowrap px-3 py-4"></td>
+                                                        <td className="whitespace-nowrap px-2 py-2"></td>
+                                                        <td className="whitespace-nowrap px-2 py-2"></td>
+                                                        <td className="whitespace-nowrap px-2 py-2"></td>
+                                                        <td className="whitespace-nowrap px-2 py-2"></td>
                                                     </>
                                                 )}
-                                                <td className="whitespace-nowrap px-3 py-4">{test.score}</td>
-                                                <td className="whitespace-nowrap px-3 py-4">{test.testStartsTime}</td>
-                                                <td className="whitespace-nowrap px-3 py-4">{test.testEndsTime}</td>
+                                                <td className="whitespace-nowrap px-2 py-2">{test.score}</td>
+                                                <td className="whitespace-nowrap px-2 py-2">{test.testStartsTime}</td>
+                                                <td className="whitespace-nowrap px-2 py-2">{test.testEndsTime}</td>
                                             </tr>
                                         ))
                                     ))}
