@@ -202,7 +202,7 @@ Feel free to note down question that you don't know & go
 through internet, youtube, books, etc
             Or 
 Consult with your teacher`)
-        navigate("/home")
+            window.location.reload()
         } catch (error) {
             console.log(error);
         }
