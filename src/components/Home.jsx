@@ -7,8 +7,10 @@ import dayjs from "dayjs";
 import { useNavigate } from 'react-router-dom';
 import { base_url } from './BaseURL';
 
+const navigate = useNavigate();
 
 export function Home() {
+
     const topics = {
         a: "Computer basics",
         b: "Number system",
@@ -127,7 +129,7 @@ export function Question() {
     const [submitClicked, setSubmitClicked] = useState(false);
     const [testStartsTime, setTestStartsTime] = useState("");
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+  
     let counter = 1;
     let valueForOptions = 0;
 
