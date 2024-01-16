@@ -31,7 +31,6 @@ export function Home() {
         axios.get(`${base_url}/user/1`, { withCredentials: true })
             .then(function (response) {
                 setUser(response.data.user)
-                console.log(response.data)
             })
             .catch(function (response) {
                 navigate("/")
@@ -66,11 +65,13 @@ export function Home() {
     }
 
 
-    function handleLogout() {
-        axios.post(`${base_url}/user/logout`,{},{ withCredentials: true })
-            .then(function (response) {
-                navigate("/")
-            })
+    async function handleLogout() {
+        try {
+            await axios.post(`${base_url}/user/logout`)
+            navigate("/")
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -131,15 +132,14 @@ export function Home() {
             </div>
 
             {
-                buttonClicked && <Question topics={selectedTopics} />
+                buttonClicked && <Question />
             }
 
         </>
     )
 }
 
-
-export function Question() {
+function Question() {
 
     // state variables
     const [questions, setQuestions] = useState([]);
