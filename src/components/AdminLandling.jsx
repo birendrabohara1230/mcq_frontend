@@ -32,7 +32,7 @@ export default function Students() {
     return (
         <>
 
-            <div className="flex flex-col m-2 bg-white">
+            <div className="flex flex-col w-3/4   m-auto bg-white">
                 <div className="sm:-mx-2 lg:-mx-2">
                     <div className="inline-block w-auto py-2 sm:px-2 lg:px-2">
                         <div className="overflow-x-auto">
