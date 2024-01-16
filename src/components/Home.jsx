@@ -28,11 +28,11 @@ export function Home() {
 
 
     useEffect(() => {
-        axios.get(`${base_url}/user/1`)
+        axios.get(`${base_url}/user/1`, { withCredentials: true })
             .then(function (response) {
                 setUser(response.data.user)
-                log(response.data)
-            }, { withCredentials: true })
+                console.log(response.data)
+            })
             .catch(function (response) {
                 navigate("/")
             })
