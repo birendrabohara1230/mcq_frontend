@@ -65,6 +65,14 @@ export function Home() {
         });
     }
 
+
+    function handleLogout() {
+        axios.post(`${base_url}/user/logout`, { withCredentials: true })
+            .then(function (response) {
+                navigate("/")
+            })
+    }
+
     return (
         <>
             <div className="flex justify-between text-white p-3 gap-5 w-1/2 m-auto max-sm:w-full">
@@ -103,13 +111,22 @@ export function Home() {
                     </div>
                 }
 
-                <div>
-                    <h4>Welcome,</h4>
-                    <h6>
-                        {
-                            user.gender === "Male" ? <p>Mr. {user.fullName}</p> : <p>Mrs. {user.fullName}</p>
-                        }
-                    </h6>
+                <div className="flex flex-col gap-2">
+                    <div>
+                        <h4>Welcome,</h4>
+                        <h6>
+                            {
+                                user.gender === "Male" ? <p>Mr. {user.fullName}</p> : <p>Mrs. {user.fullName}</p>
+                            }
+                        </h6>
+                    </div>
+                    <div>
+                        <button
+                            onClick={handleLogout}
+                            className="p-1 bg-blue-800 rounded-md px-2 hover:bg-blue-900">
+                            logout
+                        </button>
+                    </div>
                 </div>
             </div>
 
