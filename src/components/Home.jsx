@@ -30,6 +30,9 @@ export function Home() {
             .then(function (response) {
                 setUser(response.data.user)
             })
+            .catch(function(response){
+                navigate("/")
+            })
     }, [])
 
 
