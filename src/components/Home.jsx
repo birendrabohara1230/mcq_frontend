@@ -9,6 +9,7 @@ import { base_url } from './BaseURL';
 
 
 
+
 export function Home() {
     const navigate = useNavigate();
     const topics = {
@@ -197,7 +198,11 @@ function Question() {
                 testStartsTime,
                 testEndsTime,
             }, { withCredentials: true, });
-            // Handle response as needed
+            alert(`Successfully submitted. 
+Feel free to note down question that you don't know & go 
+through internet, youtube, books, etc
+            Or 
+consult with your teacher`)
         } catch (error) {
             console.log(error);
         }
