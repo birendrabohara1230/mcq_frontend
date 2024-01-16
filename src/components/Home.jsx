@@ -31,7 +31,7 @@ export function Home() {
         axios.get(`${base_url}/user/1`)
             .then(function (response) {
                 setUser(response.data.user)
-            })
+            }, {withCredentials: true})
             .catch(function(response){
                 navigate("/")
             })
