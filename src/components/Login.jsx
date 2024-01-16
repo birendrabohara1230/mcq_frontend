@@ -13,8 +13,6 @@ function Login() {
                 username,
                 password,
             }, { withCredentials: true, })
-            const data = response.data
-            // document.cookie = `accessToken=${data.accessToken}; path=/  SameSite="None"`
             navigate("/home")
         } catch (error) {
             setFlag(true)
@@ -69,7 +67,7 @@ function Login() {
                 </div>
                 <div className="flex gap-2 items-center">
                     <div>
-                        <p className="text-white">If you are not register, Register here</p>
+                        <p className="text-white">If you are not registered, Register here</p>
                     </div>
                     <div>
                         <button

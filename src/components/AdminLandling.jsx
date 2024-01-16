@@ -32,7 +32,7 @@ export default function Students() {
     return (
         <>
 
-            <div className="flex flex-col overflow-x-auto text-white m-1">
+            <div className="flex flex-col overflow-x-auto m-1 bg-white">
                 <div className="sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-x-auto">
@@ -45,7 +45,7 @@ export default function Students() {
                                         <th scope="col" className="px-6 py-4">Gender</th>
                                         <th scope="col" className="px-6 py-4">Test Score</th>
                                         <th scope="col" className="px-6 py-4">Starts</th>
-                                        <th scope="col" className="px-6 py-4">Ends</th>
+                                        <th scope="col" className="px-4 py-4">Ends</th>
                                     </tr>
                                 </thead>
 
@@ -71,7 +71,7 @@ export default function Students() {
                                                 )}
                                                 <td className="whitespace-nowrap px-6 py-4">{test.score}</td>
                                                 <td className="whitespace-nowrap px-6 py-4">{test.testStartsTime}</td>
-                                                <td className="whitespace-nowrap px-6 py-4">{test.testEndsTime}</td>
+                                                <td className="whitespace-nowrap px-4 py-4">{test.testEndsTime}</td>
                                             </tr>
                                         ))
                                     ))}
