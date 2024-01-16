@@ -67,7 +67,7 @@ export function Home() {
 
     async function handleLogout() {
         try {
-            await axios.post(`${base_url}/user/logout`, {withCredentials: true})
+            await axios.post(`${base_url}/user/logout`, {}, { withCredentials: true })
             navigate("/")
         } catch (error) {
             console.log(error)
