@@ -191,18 +191,18 @@ function Question() {
         setSubmitClicked(true);
         const today = dayjs();
         const testEndsTime = today.format('ddd, MMM, YYYY, hh:mm:ss A');
-
         try {
             const response = await axios.post(`${base_url}/questions/submittedAns`, {
                 selectedAnswers,
                 testStartsTime,
                 testEndsTime,
-            }, { withCredentials: true, });
+            }, { withCredentials: true });
             alert(`Successfully submitted. 
 Feel free to note down question that you don't know & go 
 through internet, youtube, books, etc
             Or 
-consult with your teacher`)
+Consult with your teacher`)
+        navigate("/home")
         } catch (error) {
             console.log(error);
         }
