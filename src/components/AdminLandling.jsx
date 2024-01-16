@@ -36,7 +36,7 @@ export default function Students() {
                 <div className="sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div className="overflow-x-auto">
-                            <table className="min-w-full text-left text-sm font-light">
+                            <table className="w-auto text-left text-sm font-light">
                                 <thead className="border-b font-medium dark:border-neutral-500">
                                     <tr>
                                         <th scope="col" className="px-2 py-2">ID</th>
