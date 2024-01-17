@@ -81,7 +81,7 @@ export function Home() {
                 <div>
                     <img
                         className="rounded-full"
-                        src="https://res.cloudinary.com/drmynjjhg/image/upload/v1705393573/acief5thhfdkz6sea6tf.jpg" width={80} alt="Birendra Bohara" />
+                        src={user.studImage || "https://res.cloudinary.com/drmynjjhg/image/upload/v1705393573/acief5thhfdkz6sea6tf.jpg"} width={80} alt="Birendra Bohara" />
                 </div>
                 {
                     buttonClicked ? "" : <div>
