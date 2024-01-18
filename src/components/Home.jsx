@@ -219,7 +219,7 @@ Consult with your teacher`)
     // layout for the questions
     return (
         <div className="flex justify-center flex-col shadow-lg w-1/2 m-auto max-sm:w-full">
-            <div className="text-white p-1 m-2 flex justify-between items-center bg-blue-600 shadow-xl rounded-md">
+            <div className="text-white p-1 m-2 flex justify-between font-bold items-center bg-blue-600 shadow-xl rounded-md">
                 <div>
                     <p>Time: 15min</p>
                 </div>
@@ -231,7 +231,7 @@ Consult with your teacher`)
                     <p>PM:12</p>
                 </div>
             </div>
-            <div className="bg- p-1 m-2 shadow-xl bg-blue-600 rounded-md text-white">
+            <div className="bg- p-1 m-2 shadow-xl bg-blue-600 rounded-md font-bold  text-white">
                 <p><span className="text-red-900 font-bold text-xl">Note:</span></p>
                 <p><span className="text-red-800 font-bold">a)</span> Before 15 minutes you have to submit answer, otherwise automatically solved questions will be submitted.</p>
                 <p><span className="text-red-800 font-bold">b)</span> There are some questions that might you don't know, so don't feel overwhelming.</p>
