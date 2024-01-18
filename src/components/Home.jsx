@@ -40,7 +40,8 @@ export function Home() {
     }, [])
 
 
-    async function handleClick() {
+    async function handleTakeTestClick() {
+        localStorage.setItem('selectedTopics', JSON.stringify(selectedTopics))
         setIsLoading(true)
         try {
             if (selectedTopics.length >= 1) {
@@ -113,7 +114,7 @@ export function Home() {
                                 ))}
                             </div>
                             <div className="bg-blue-600 p-1 px-2 rounded-md hover:bg-blue-800">
-                                <button onClick={handleClick}>
+                                <button onClick={handleTakeTestClick}>
                                     {isLoading ? 'Loading Questions...' : 'Take test'}
                                 </button>
                             </div>
@@ -148,6 +149,9 @@ export function Home() {
     )
 }
 
+
+// fetching question logic
+
 function Question() {
 
     // state variables
@@ -164,7 +168,7 @@ function Question() {
         const today = dayjs();
         setTestStartsTime(today.format('ddd, MMM, YYYY, hh:mm:ss A'));
 
-        axios.get(`${base_url}/questions/all/30`, {
+        axios.get(`${base_url}/questions/all/4`, {
             withCredentials: true
         })
             .then(function (response) {
@@ -179,7 +183,7 @@ function Question() {
             });
 
         setTimeout(() => {
-            setSubmitClicked(true);
+            handleSubmitButtonClick()
         }, 900000);
     }, []);
 
@@ -195,7 +199,7 @@ function Question() {
     // send uses selected answer along with questions id 
     // test start time 
     // test end time
-    async function handleClick() {
+    async function handleSubmitButtonClick() {
         setSubmitClicked(true);
         const today = dayjs();
         const testEndsTime = today.format('ddd, MMM, YYYY, hh:mm:ss A');
@@ -204,6 +208,7 @@ function Question() {
                 selectedAnswers,
                 testStartsTime,
                 testEndsTime,
+                selectedTopics: JSON.parse(localStorage.getItem("selectedTopics"))
             }, { withCredentials: true });
             alert(`Successfully submitted. 
 Feel free to note down question that you don't know & go 
@@ -219,7 +224,7 @@ Consult with your teacher`)
     // layout for the questions
     return (
         <div className="flex justify-center flex-col shadow-lg w-1/2 m-auto max-sm:w-full">
-            <div className="text-white p-1 m-2 flex justify-between font-bold items-center bg-blue-600 shadow-xl rounded-md">
+            <div className="text-white p-1 m-2 flex justify-between font-bold items-center bg-slate-600 shadow-xl rounded-md">
                 <div>
                     <p>Time: 15min</p>
                 </div>
@@ -231,7 +236,7 @@ Consult with your teacher`)
                     <p>PM:12</p>
                 </div>
             </div>
-            <div className="bg- p-1 m-2 shadow-xl bg-blue-600 rounded-md font-bold  text-white">
+            <div className="bg- p-1 m-2 shadow-xl bg-slate-600 rounded-md font-bold  text-white">
                 <p><span className="text-red-900 font-bold text-xl">Note:</span></p>
                 <p><span className="text-red-800 font-bold">a)</span> Before 15 minutes you have to submit answer, otherwise automatically solved questions will be submitted.</p>
                 <p><span className="text-red-800 font-bold">b)</span> There are some questions that might you don't know, so don't feel overwhelming.</p>
@@ -263,7 +268,7 @@ Consult with your teacher`)
                 <div className="mt-4 text-center">
                     <button
                         className="text-white hover:bg-blue-950 w-40 p-3 rounded-lg bg-blue-800"
-                        onClick={handleClick}
+                        onClick={handleSubmitButtonClick}
                         disabled={submitClicked}
                     >
                         Submit
