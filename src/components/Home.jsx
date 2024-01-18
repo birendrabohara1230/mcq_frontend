@@ -168,7 +168,7 @@ function Question() {
         const today = dayjs();
         setTestStartsTime(today.format('ddd, MMM, YYYY, hh:mm:ss A'));
 
-        axios.get(`${base_url}/questions/all/4`, {
+        axios.get(`${base_url}/questions/all/30`, {
             withCredentials: true
         })
             .then(function (response) {
