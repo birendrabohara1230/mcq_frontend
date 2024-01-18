@@ -12,6 +12,7 @@ export default function Signup() {
     const [studImage, setStudImage] = useState("");
     const [flag, setFlag] = useState(false);
     const [selectedFileName, setSelectedFileName] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // Added loading state
     const navigate = useNavigate();
 
     function handleFileChange(e) {
@@ -21,6 +22,8 @@ export default function Signup() {
     }
 
     async function handleSignup() {
+        setIsLoading(true); // Set loading to true while signing up
+
         if (username.length >= 1 && password.length >= 1 && grade.length >= 1 && fullName.length >= 1 && gender.length >= 1) {
             const formData = new FormData();
             formData.append("studImage", studImage);
@@ -38,19 +41,22 @@ Password: ${password}`);
                 navigate("/");
             } catch (error) {
                 alert(error);
+            } finally {
+                setIsLoading(false); // Set loading to false after signup completion (success or error)
             }
         } else {
             setFlag(true);
             setTimeout(() => {
                 setFlag(false);
             }, 3000);
+            setIsLoading(false); // Set loading to false if validation fails
         }
     }
 
     return (
         <div className="flex justify-center">
             <form onSubmit={(e) => {
-                e.preventDefault(); // Prevent default form submission behavior
+                e.preventDefault();
                 handleSignup();
             }}>
                 <div className="p-10 bg-slate-700 mt-10 rounded-3xl shadow-xl flex flex-col gap-2">
@@ -135,14 +141,16 @@ Password: ${password}`);
                             <label htmlFor="a">Female</label>
                         </div>
                     </div>
+
                     <div className="flex justify-evenly">
                         <div>
                             <button
                                 type="submit"
                                 className="text-white bg-slate-900 p-4 rounded-lg cursor-pointer hover:bg-slate-800
                                 hover:text-green-700"
+                                disabled={isLoading} // Disable the button while loading
                             >
-                                Signup
+                                {isLoading ? 'Signing up...' : 'Signup'}
                             </button>
                         </div>
                     </div>
