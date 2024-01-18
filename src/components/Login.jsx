@@ -5,9 +5,13 @@ import {base_url} from './BaseURL'
 function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false);
     const [flag, setFlag] = useState(false)
     const navigate = useNavigate()
+
+    // handling login
     async function handleLogin() {
+        setIsLoading(true)
         try {
             const response = await axios.post(`${base_url}/user/signin`, {
                 username,
@@ -19,6 +23,8 @@ function Login() {
             setTimeout(() => {
                 setFlag(false)
             }, 3000);
+        } finally{
+            setIsLoading(false)
         }
     }
 
@@ -61,7 +67,7 @@ function Login() {
                             className="text-white bg-slate-900 p-2 px-4  rounded-lg cursor-pointer hover:bg-slate-800"
                             onClick={handleLogin}
                         >
-                            Login
+                            {isLoading ? 'Logging in...' : 'Login'}
                         </button>
                     </div>
                 </div>

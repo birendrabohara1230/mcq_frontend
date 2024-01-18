@@ -12,6 +12,7 @@ import { base_url } from './BaseURL';
 
 export function Home() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const topics = {
         a: "Computer basics",
         b: "Number system",
@@ -40,14 +41,21 @@ export function Home() {
 
 
     async function handleClick() {
-        if (selectedTopics.length >= 1) {
-            await axios.post(`${base_url}/questions/selected/topics`, {
-                selectedTopics,
-            }, { withCredentials: true })
-            setButtonClicked(true)
-        } else {
-            alert(`At least one topic must be selected.`)
-            return;
+        setIsLoading(true)
+        try {
+            if (selectedTopics.length >= 1) {
+                await axios.post(`${base_url}/questions/selected/topics`, {
+                    selectedTopics,
+                }, { withCredentials: true })
+                setButtonClicked(true)
+            } else {
+                alert(`At least one topic must be selected.`)
+                return;
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -107,6 +115,7 @@ export function Home() {
                             <div className="bg-blue-600 p-1 px-2 rounded-md hover:bg-blue-700">
                                 <button onClick={handleClick}>
                                     Take test
+                                    {isLoading ? 'Loading Questions...' : 'Take test'}
                                 </button>
                             </div>
                         </div>
