@@ -112,9 +112,8 @@ export function Home() {
                                     </div>
                                 ))}
                             </div>
-                            <div className="bg-blue-600 p-1 px-2 rounded-md hover:bg-blue-700">
+                            <div className="bg-blue-600 p-1 px-2 rounded-md hover:bg-blue-800">
                                 <button onClick={handleClick}>
-                                    Take test
                                     {isLoading ? 'Loading Questions...' : 'Take test'}
                                 </button>
                             </div>
