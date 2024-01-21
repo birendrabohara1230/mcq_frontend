@@ -162,7 +162,8 @@ function Question() {
     const [fullMarks, setFullMarks] = useState(30)
     const [passMarks, setPassMarks] = useState(12)
     const [time, setTime] = useState(15)
-    const [counter, setCounter] = useState(1)
+    // const [counter, setCounter] = useState(1)
+    let counter = 1
     const navigate = useNavigate();
     let valueForOptions = 0;
 
@@ -191,12 +192,12 @@ function Question() {
         }, 900000);
     }, []);
 
-    useEffect(()=>{
-        setCounter(counter=> counter+1)
-        setFullMarks(counter)
-        setPassMarks(counter*0.4)
-        setTime(counter/2)
-    }, [counter])
+    // useEffect(()=>{
+    //     setCounter(counter=> counter+1)
+    //     setFullMarks(counter)
+    //     setPassMarks(counter*0.4)
+    //     setTime(counter/2)
+    // }, [counter])
 
     // collecting the selected answers along with their questions Unique Id
     function handleChange(e, questionId) {
@@ -257,7 +258,7 @@ Consult with your teacher`)
                     questions.map((question, index) => (
                         <div key={index} id={question._id} className="text-white m-2">
                             <div className="flex gap-2 font-bold">
-                                <div className="text-green-800">{counter}.</div>
+                                <div className="text-green-800">{counter++}.</div>
                                 <div>{question.qns}</div>
                             </div>
                             <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-1">
