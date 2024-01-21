@@ -46,7 +46,7 @@ export function Home() {
         try {
             if (selectedTopics.length >= 1) {
                 await axios.post(`${base_url}/questions/selected/topics`, {
-                    selectedTopics,
+                    selectedTopics: JSON.parse(localStorage.getItem("selectedTopics"))
                 }, { withCredentials: true })
                 setButtonClicked(true)
             } else {
@@ -168,7 +168,7 @@ function Question() {
         const today = dayjs();
         setTestStartsTime(today.format('ddd, MMM, YYYY, hh:mm:ss A'));
 
-        axios.get(`${base_url}/questions/all/30`, {
+        axios.get(`${base_url}/questions/all/30`,{
             withCredentials: true
         })
             .then(function (response) {
