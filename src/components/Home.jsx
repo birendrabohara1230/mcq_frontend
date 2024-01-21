@@ -159,16 +159,20 @@ function Question() {
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [submitClicked, setSubmitClicked] = useState(false);
     const [testStartsTime, setTestStartsTime] = useState("");
+    const [fullMarks, setFullMarks] = useState(30)
+    const [passMarks, setPassMarks] = useState(12)
+    const [time, setTime] = useState(15)
+    const [counter, setCounter] = useState(1)
     const navigate = useNavigate();
-    let counter = 1;
     let valueForOptions = 0;
+
 
     // Fetching the questions from db
     useEffect(() => {
         const today = dayjs();
         setTestStartsTime(today.format('ddd, MMM, YYYY, hh:mm:ss A'));
 
-        axios.get(`${base_url}/questions/all/30`,{
+        axios.get(`${base_url}/questions/all/30`, {
             withCredentials: true
         })
             .then(function (response) {
@@ -186,6 +190,13 @@ function Question() {
             handleSubmitButtonClick()
         }, 900000);
     }, []);
+
+    useEffect(()=>{
+        setCounter(counter=> counter+1)
+        setFullMarks(counter)
+        setPassMarks(counter*0.4)
+        setTime(counter/2)
+    }, [counter])
 
     // collecting the selected answers along with their questions Unique Id
     function handleChange(e, questionId) {
@@ -226,14 +237,14 @@ Consult with your teacher`)
         <div className="flex justify-center flex-col shadow-lg w-1/2 m-auto max-sm:w-full">
             <div className="text-white p-1 m-2 flex justify-between font-bold items-center bg-slate-600 shadow-xl rounded-md">
                 <div>
-                    <p>Time: 15min</p>
+                    <p>Time: {time}min</p>
                 </div>
                 <div>
                     <p>Attempt all Questions</p>
                 </div>
                 <div>
-                    <p>FM:30</p>
-                    <p>PM:12</p>
+                    <p>FM:{fullMarks}</p>
+                    <p>PM:{passMarks}</p>
                 </div>
             </div>
             <div className="bg- p-1 m-2 shadow-xl bg-slate-600 rounded-md font-bold  text-white">
@@ -246,7 +257,7 @@ Consult with your teacher`)
                     questions.map((question, index) => (
                         <div key={index} id={question._id} className="text-white m-2">
                             <div className="flex gap-2 font-bold">
-                                <div className="text-green-800">{counter++}.</div>
+                                <div className="text-green-800">{counter}.</div>
                                 <div>{question.qns}</div>
                             </div>
                             <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-1">
