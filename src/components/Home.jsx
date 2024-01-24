@@ -162,7 +162,7 @@ function Question() {
     const [fullMarks, setFullMarks] = useState(0)
     const [passMarks, setPassMarks] = useState(0)
     const [time, setTime] = useState(0)
-    const noOfQuestions = 0;
+    let noOfQuestions = 0;
     let counter = 1
     const navigate = useNavigate();
     let valueForOptions = 0;
