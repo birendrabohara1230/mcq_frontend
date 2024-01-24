@@ -159,10 +159,10 @@ function Question() {
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [submitClicked, setSubmitClicked] = useState(false);
     const [testStartsTime, setTestStartsTime] = useState("");
-    const [fullMarks, setFullMarks] = useState(30)
-    const [passMarks, setPassMarks] = useState(12)
-    const [time, setTime] = useState(15)
-    // const [counter, setCounter] = useState(1)
+    const [fullMarks, setFullMarks] = useState(0)
+    const [passMarks, setPassMarks] = useState(0)
+    const [time, setTime] = useState(0)
+    const noOfQuestions = 0;
     let counter = 1
     const navigate = useNavigate();
     let valueForOptions = 0;
@@ -177,6 +177,13 @@ function Question() {
             withCredentials: true
         })
             .then(function (response) {
+
+                noOfQuestions = response.data.questions.length
+                setFullMarks(noOfQuestions)
+                setPassMarks(Math.floor(fullMarks * 0.4))
+                setTime(Math.ceil(noOfQuestions/2))
+
+
                 setQuestions(response.data.questions);
             })
             .catch(function (error) {
@@ -192,12 +199,6 @@ function Question() {
         }, 900000);
     }, []);
 
-    // useEffect(()=>{
-    //     setCounter(counter=> counter+1)
-    //     setFullMarks(counter)
-    //     setPassMarks(counter*0.4)
-    //     setTime(counter/2)
-    // }, [counter])
 
     // collecting the selected answers along with their questions Unique Id
     function handleChange(e, questionId) {
