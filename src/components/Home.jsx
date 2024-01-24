@@ -180,7 +180,7 @@ function Question() {
 
                 noOfQuestions = response.data.questions.length
                 setFullMarks(noOfQuestions)
-                setPassMarks(Math.floor(fullMarks * 0.4))
+                setPassMarks(Math.floor(noOfQuestions * 0.4))
                 setTime(Math.ceil(noOfQuestions/2))
 
 
