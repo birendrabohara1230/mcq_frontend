@@ -38,7 +38,8 @@ export function Home() {
             .then(function (response) {
                 setUser(response.data.user)
             })
-            .catch(function (response) {
+            .catch(function (error) {
+                console.log(error)
                 navigate("/")
             })
 
@@ -49,7 +50,6 @@ export function Home() {
             })
             .catch(function (error) {
                 console.log(error)
-                navigate("/")
             })
     }, [])
 
@@ -134,26 +134,49 @@ export function Home() {
                             </div>
                         </div>
                         <div>
-                            <table className="table-auto">
-                                <thead>
-                                    <th>S.N</th>
-                                    <th>Starts</th>
-                                    <th>Ends</th>
-                                    <th>Score</th>
-                                </thead>
-                                <tbody>
-                                    {
-                                        testStat.map(test => {
-                                            <tr>
-                                                <td>{testCounter++}</td>
-                                                <td>{test.testStartsTime}</td>
-                                                <td>{test.testEndsTime}</td>
-                                                <td>{test.score}</td>
-                                            </tr>
-                                        })
-                                    }
-                                </tbody>
-                            </table>
+
+
+                            <div class="relative overflow-x-auto">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                S.N
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Starts
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Ends
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Score
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            testStat.map(test => (
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        {testCounter++}
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        {test.testStartsTime}
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        {test.testEndsTime}
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        {test.score}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                 }
