@@ -136,10 +136,10 @@ export function Home() {
                         {
                             testStat.map(test => (
                                 <div className="flex justify-between shadow-md bg-gray-700 text-white rounded-lg gap-2">
-                                    <div>{testCounter++}. Set</div>
-                                    <div>Starts at: {test.testStartsTime}</div>
-                                    <div>Ends at: {test.testEndsTime}</div>
-                                    <div>Score: {test.score}</div>
+                                    <div className="m-2 p-2">{testCounter++}. Set</div>
+                                    <div className="m-2 p-2">Starts at: {test.testStartsTime}</div>
+                                    <div className="m-2 p-2">Ends at: {test.testEndsTime}</div>
+                                    <div className="m-2 p-2">Score: {test.score}</div>
                                 </div>
                             ))
                         }
