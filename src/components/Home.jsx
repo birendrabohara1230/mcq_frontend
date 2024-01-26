@@ -134,7 +134,7 @@ export function Home() {
                             </div>
                         </div>
                         <div>
-                            <table className="border-collapse border">
+                            <table className="table-auto">
                                 <thead>
                                     <th>S.N</th>
                                     <th>Starts</th>
