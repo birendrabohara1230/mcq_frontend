@@ -13,6 +13,7 @@ import { base_url } from './BaseURL';
 export function Home() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    let testCounter = 1;
     const topics = {
         a: "Computer basics",
         b: "Number system",
@@ -23,8 +24,11 @@ export function Home() {
     }
 
     const [user, setUser] = useState({})
+
     const [selectedTopics, setSelectedTopics] = useState([]);
     const [buttonClicked, setButtonClicked] = useState(false);
+    const [takenTest, setTakenTest] = useState([])
+    const [testStat, setTestStat] = useState([])
 
 
 
@@ -35,6 +39,16 @@ export function Home() {
                 setUser(response.data.user)
             })
             .catch(function (response) {
+                navigate("/")
+            })
+
+        axios.get(`${base_url}/questions/taken/test`, { withCredentials: true })
+            .then(function (response) {
+                setTakenTest(response.data.takenTestQns)
+                setTestStat(response.data.testStat)
+            })
+            .catch(function (error) {
+                console.log(error)
                 navigate("/")
             })
     }, [])
@@ -119,6 +133,16 @@ export function Home() {
                                 </button>
                             </div>
                         </div>
+                        {
+                            testStat.map(test => (
+                                <div className="flex justify-between shadow-md bg-gray-700 text-white rounded-lg gap-2">
+                                    <div>{testCounter++}. Set</div>
+                                    <div>Starts at: {test.testStartsTime}</div>
+                                    <div>Ends at: {test.testEndsTime}</div>
+                                    <div>Score: {test.score}</div>
+                                </div>
+                            ))
+                        }
                     </div>
                 }
 
@@ -181,7 +205,7 @@ function Question() {
                 noOfQuestions = response.data.questions.length
                 setFullMarks(noOfQuestions)
                 setPassMarks(Math.floor(noOfQuestions * 0.4))
-                setTime(Math.ceil(noOfQuestions/2))
+                setTime(Math.ceil(noOfQuestions / 2))
 
 
                 setQuestions(response.data.questions);
