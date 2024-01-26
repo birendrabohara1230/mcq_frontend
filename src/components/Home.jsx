@@ -133,16 +133,28 @@ export function Home() {
                                 </button>
                             </div>
                         </div>
-                        {
-                            testStat.map(test => (
-                                <div className="flex justify-between shadow-md bg-gray-700 text-white rounded-lg gap-2">
-                                    <div className="m-2 p-2">{testCounter++}. Set</div>
-                                    <div className="m-2 p-2">Starts at: {test.testStartsTime}</div>
-                                    <div className="m-2 p-2">Ends at: {test.testEndsTime}</div>
-                                    <div className="m-2 p-2">Score: {test.score}</div>
-                                </div>
-                            ))
-                        }
+                        <div>
+                            <table className="border-collapse border">
+                                <thead>
+                                    <th>S.N</th>
+                                    <th>Starts</th>
+                                    <th>Ends</th>
+                                    <th>Score</th>
+                                </thead>
+                                <tbody>
+                                    {
+                                        testStat.map(test => {
+                                            <tr>
+                                                <td>{testCounter++}</td>
+                                                <td>{test.testStartsTime}</td>
+                                                <td>{test.testEndsTime}</td>
+                                                <td>{test.score}</td>
+                                            </tr>
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 }
 
