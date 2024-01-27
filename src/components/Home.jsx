@@ -29,7 +29,7 @@ export function Home() {
     const [buttonClicked, setButtonClicked] = useState(false);
     const [takenTest, setTakenTest] = useState([])
     const [testStat, setTestStat] = useState([])
-
+    const [testExists, setTestExists] = useState(false)
 
 
 
@@ -47,6 +47,10 @@ export function Home() {
             .then(function (response) {
                 setTakenTest(response.data.takenTestQns)
                 setTestStat(response.data.testStat)
+                if (testStat.length > 0) {
+                    setTestExists(true)
+                }
+
             })
             .catch(function (error) {
                 console.log(error)
@@ -133,49 +137,52 @@ export function Home() {
                                 </button>
                             </div>
                         </div>
-                        <div className="mt-5">
-                            <div className="p-2 text-center rounded-md mb-1">Results of taken test</div>
-                            <div class="relative overflow-x-auto">
-                                <table class="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                S.N
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Starts
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Ends
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Score
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            testStat.map(test => (
-                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {testCounter++}
-                                                    </th>
-                                                    <td class="px-6 py-4">
-                                                        {test.testStartsTime}
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        {test.testEndsTime}
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        {test.score}
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </table>
+                        {
+                            testExists &&
+                            <div className="mt-5">
+                                <div className="p-2 text-center rounded-md mb-1">Results of taken test</div>
+                                <div className="relative overflow-x-auto">
+                                    <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-3">
+                                                    S.N
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Starts
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Ends
+                                                </th>
+                                                <th scope="col" className="px-6 py-3">
+                                                    Score
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                testStat.map((test, index) => (
+                                                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                            {testCounter++}
+                                                        </th>
+                                                        <td className="px-6 py-4">
+                                                            {test.testStartsTime}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {test.testEndsTime}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {test.score}
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 }
 
