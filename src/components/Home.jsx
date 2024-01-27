@@ -116,7 +116,20 @@ export function Home() {
 
     return (
         <>
-            {isPopupOpen && <Popup />}
+            {isPopupOpen &&
+                <div>
+                    {isPopupOpen && (
+                        <div className="popup">
+                            <div className="popup-content">
+                                <span className="close" onClick={closePopup}>
+                                    &times;
+                                </span>
+                                <p>This is a simple popup content.</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            }
             <div className="flex justify-between text-white p-3 gap-5 w-1/2 m-auto max-sm:w-full">
                 <div>
                     <img
