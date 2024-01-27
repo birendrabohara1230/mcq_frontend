@@ -6,6 +6,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useNavigate } from 'react-router-dom';
 import { base_url } from './BaseURL';
+import { Popup } from "./Popup";
 
 
 
@@ -30,6 +31,17 @@ export function Home() {
     const [takenTest, setTakenTest] = useState([])
     const [testStat, setTestStat] = useState([])
     const [testExists, setTestExists] = useState(false)
+
+    //popup logic
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const openPopup = () => {
+        setIsPopupOpen(true);
+    };
+
+    const closePopup = () => {
+        setIsPopupOpen(false);
+    };
 
 
 
@@ -104,6 +116,7 @@ export function Home() {
 
     return (
         <>
+            {isPopupOpen && <Popup />}
             <div className="flex justify-between text-white p-3 gap-5 w-1/2 m-auto max-sm:w-full">
                 <div>
                     <img
@@ -157,6 +170,9 @@ export function Home() {
                                                 <th scope="col" className="px-6 py-3">
                                                     Score
                                                 </th>
+                                                <th scope="col" className="px-6 py-3">
+
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -174,6 +190,9 @@ export function Home() {
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             {test.score}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            <button onClick={openPopup}>Open Popup</button>
                                                         </td>
                                                     </tr>
                                                 ))
