@@ -47,7 +47,7 @@ export function Home() {
             .then(function (response) {
                 setTakenTest(response.data.takenTestQns)
                 setTestStat(response.data.testStat)
-                if (testStat.length > 0) {
+                if (response.data.testStat.length > 0) {
                     setTestExists(true)
                 }
 
