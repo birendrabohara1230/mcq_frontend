@@ -1,10 +1,8 @@
 import { useState } from "react";
 
 export const Popup = ({ closePopup, questions }) => {
-    console.log(questions)
     let counter = 1;
     let valueForOptions = 0;
-
     return (
         <div className="fixed inset-0 m-2 sm:w-1/2 sm:m-auto p-3  flex flex-col bg-slate-800 text-white rounded-md shadow-md overflow-auto">
             <div className="flex justify-end">

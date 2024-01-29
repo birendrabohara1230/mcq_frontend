@@ -17,8 +17,8 @@ export function Home() {
     const [dataLoaded, setDataLoaded] = useState(false);
     const [difference, setDifference] = useState(0)
     const [testSet, setTestSet] = useState(0)
-    const [takenTestCounter, setTakenTestCounter] = useState(0)
     let testCounter = 1;
+    let takenTestCounter = 0
     let totalTakenTest = 0
     let totalStoredTest = 0
     const topics = {
@@ -41,10 +41,8 @@ export function Home() {
     //popup logic
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    const openPopup = (takenTestCounter) => {
-        setTestSet(takenTestCounter)
-        console.log(testSet)
-        console.log(takenTestCounter)
+    const openPopup = (e) => {
+        setTestSet(parseInt(e.target.name))
         setIsPopupOpen(true);
     };
 
@@ -212,6 +210,8 @@ export function Home() {
                 </div>
             </div>
 
+            {/* Questions logic implemented here */}
+
             {
                 buttonClicked && <Question />
             }
@@ -269,11 +269,11 @@ export function Home() {
 
                                                         testCounter++ > difference ?
                                                             <button
+                                                                name={takenTestCounter++}
                                                                 className="px-2 py-1 bg-pink-300 rounded-md shadow-sm text-black"
                                                                 onClick={
-                                                                    () => {
-                                                                        openPopup(takenTestCounter)
-                                                                        setTakenTestCounter(prev => prev + 1)
+                                                                    (e) => {
+                                                                        openPopup(e)
                                                                     }
                                                                 }>
                                                                 Result
