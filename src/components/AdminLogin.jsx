@@ -17,9 +17,11 @@ export default function AdminLogin() {
             await axios.post(`${base_url}/admin/signin`, {
                 username,
                 password,
-            }, {withCredentials: true})
+            },
+            )
                 .then(response => {
                     navigate("/adminHome")
+                    localStorage.setItem("adminToken")
                 })
                 .catch(error => {
                     navigate("/admin")

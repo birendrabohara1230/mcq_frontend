@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {base_url} from './BaseURL'
+import { base_url } from './BaseURL'
 
 export default function Students() {
 
@@ -13,7 +13,11 @@ export default function Students() {
     useEffect(() => {
 
         try {
-            axios.get(`${base_url}/admin/users/all`, { withCredentials: true, })
+            axios.get(`${base_url}/admin/users/all`, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("adminToken")
+                }
+            })
                 .then(function (response) {
                     const studentsData = response.data
                     setStudents(studentsData.users);

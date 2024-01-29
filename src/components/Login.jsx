@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
-import {base_url} from './BaseURL'
+import { base_url } from './BaseURL'
 function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -16,14 +16,15 @@ function Login() {
             const response = await axios.post(`${base_url}/user/signin`, {
                 username,
                 password,
-            }, { withCredentials: true, })
+            })
+            localStorage.setItem("token", response.data.accessToken)
             navigate("/home")
         } catch (error) {
             setFlag(true)
             setTimeout(() => {
                 setFlag(false)
             }, 3000);
-        } finally{
+        } finally {
             setIsLoading(false)
         }
     }

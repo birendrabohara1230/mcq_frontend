@@ -14,7 +14,13 @@ import { Popup } from "./Popup";
 export function Home() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const [difference, setDifference] = useState(0)
+    const [testSet, setTestSet] = useState(0)
+    const [takenTestCounter, setTakenTestCounter] = useState(0)
     let testCounter = 1;
+    let totalTakenTest = 0
+    let totalStoredTest = 0
     const topics = {
         a: "Computer basics",
         b: "Number system",
@@ -35,7 +41,10 @@ export function Home() {
     //popup logic
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    const openPopup = () => {
+    const openPopup = (takenTestCounter) => {
+        setTestSet(takenTestCounter)
+        console.log(testSet)
+        console.log(takenTestCounter)
         setIsPopupOpen(true);
     };
 
@@ -46,28 +55,43 @@ export function Home() {
 
 
     useEffect(() => {
-        axios.get(`${base_url}/user/1`, { withCredentials: true })
-            .then(function (response) {
-                setUser(response.data.user)
-            })
-            .catch(function (error) {
-                console.log(error)
-                navigate("/")
-            })
+        const fetchData = async () => {
+            try {
+                const userResponse = await axios.get(`${base_url}/user/1`, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                });
 
-        axios.get(`${base_url}/questions/taken/test`, { withCredentials: true })
-            .then(function (response) {
-                setTakenTest(response.data.takenTestQns)
-                setTestStat(response.data.testStat)
-                if (response.data.testStat.length > 0) {
-                    setTestExists(true)
+                setUser(userResponse.data.user);
+
+                const testResponse = await axios.get(`${base_url}/questions/taken/test`, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                });
+
+                setTakenTest(testResponse.data.takenTestQns);
+                setTestStat(testResponse.data.testStat);
+
+                if (testResponse.data.testStat.length > 0) {
+                    setTestExists(true);
                 }
 
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-    }, [])
+                totalTakenTest = testResponse.data.testStat.length;
+                totalStoredTest = testResponse.data.takenTestQns.length;
+                const difference = totalTakenTest - totalStoredTest;
+                setDifference(difference)
+                setDataLoaded(true);
+            } catch (error) {
+                console.log(error);
+                navigate("/");
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
 
     async function handleTakeTestClick() {
@@ -77,7 +101,11 @@ export function Home() {
             if (selectedTopics.length >= 1) {
                 await axios.post(`${base_url}/questions/selected/topics`, {
                     selectedTopics: JSON.parse(localStorage.getItem("selectedTopics"))
-                }, { withCredentials: true })
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                })
                 setButtonClicked(true)
             } else {
                 alert(`At least one topic must be selected.`)
@@ -107,115 +135,136 @@ export function Home() {
 
     async function handleLogout() {
         try {
-            await axios.post(`${base_url}/user/logout`, {}, { withCredentials: true })
+            localStorage.removeItem("token")
             navigate("/")
         } catch (error) {
             console.log(error)
         }
     }
 
+
+    if (!dataLoaded) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-black">
+                <div className="animate-spin rounded-full border-t-4 border-white border-opacity-25 h-12 w-12"></div>
+            </div>
+        )
+
+
+    }
     return (
         <>
-            {isPopupOpen &&
+
+            {isPopupOpen && (
                 <div>
-                    {isPopupOpen && (
-                        <div className="popup">
-                            <div className="popup-content">
-                                <span className="close" onClick={closePopup}>
-                                    &times;
-                                </span>
-                                <p>This is a simple popup content.</p>
-                            </div>
-                        </div>
-                    )}
+                    <Popup closePopup={closePopup} questions={takenTest[testSet]} />
                 </div>
-            }
+            )}
+
             <div className="flex justify-between text-white p-3 gap-5 w-1/2 m-auto max-sm:w-full">
                 <div>
                     <img
                         className="rounded-full"
-                        src={user.studImage || "https://res.cloudinary.com/drmynjjhg/image/upload/v1705393573/acief5thhfdkz6sea6tf.jpg"} width={80} alt="Birendra Bohara" />
+                        src={user.studImage || "https://res.cloudinary.com/drmynjjhg/image/upload/v1705393573/acief5thhfdkz6sea6tf.jpg"}
+                        width={80} alt="Birendra Bohara"
+                    />
                 </div>
                 {
-                    buttonClicked ? "" : <div>
-                        <div className="flex gap-4 flex-col items-center  text-white">
-                            <div className="p-1 text-red-600 font-bold">
-                                <p>Choose the topics </p>
-                            </div>
-                            <div className="grid grid-cols-2  max-sm:grid-cols-1 gap-1" >
-                                {Object.keys(topics).map((key) => (
-                                    <div key={key}>
-                                        <input
-                                            type="checkbox"
-                                            id={key}
-                                            onChange={() => handleCheckboxChange(key)}
-                                            checked={selectedTopics.includes(topics[key])}
-                                        />
-                                        <label className="ml-3" htmlFor={key}>
-                                            {topics[key]}
-                                        </label>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="bg-blue-600 p-1 px-2 rounded-md hover:bg-blue-800">
-                                <button onClick={handleTakeTestClick}>
-                                    {isLoading ? 'Loading Questions...' : 'Take test'}
-                                </button>
-                            </div>
-                        </div>
-                        {
-                            testExists &&
-                            <div className="mt-5">
-                                <div className="p-2 text-center rounded-md mb-1">Results of taken test</div>
-                                <div className="relative overflow-x-auto">
-                                    <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" className="px-6 py-3">
-                                                    S.N
-                                                </th>
-                                                <th scope="col" className="px-6 py-3">
-                                                    Starts
-                                                </th>
-                                                <th scope="col" className="px-6 py-3">
-                                                    Ends
-                                                </th>
-                                                <th scope="col" className="px-6 py-3">
-                                                    Score
-                                                </th>
-                                                <th scope="col" className="px-6 py-3">
-
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                testStat.map((test, index) => (
-                                                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                            {testCounter++}
-                                                        </th>
-                                                        <td className="px-6 py-4">
-                                                            {test.testStartsTime}
-                                                        </td>
-                                                        <td className="px-6 py-4">
-                                                            {test.testEndsTime}
-                                                        </td>
-                                                        <td className="px-6 py-4">
-                                                            {test.score}
-                                                        </td>
-                                                        <td className="px-6 py-4">
-                                                            <button onClick={openPopup}>Open Popup</button>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-                                        </tbody>
-                                    </table>
+                    buttonClicked ? "" :
+                        <div>
+                            <div className="flex gap-4 flex-col items-center  text-white">
+                                <div className="p-1 text-red-600 font-bold">
+                                    <p>Choose the topics </p>
+                                </div>
+                                <div className="grid grid-cols-2  max-sm:grid-cols-1 gap-1" >
+                                    {Object.keys(topics).map((key) => (
+                                        <div key={key}>
+                                            <input
+                                                type="checkbox"
+                                                id={key}
+                                                onChange={() => handleCheckboxChange(key)}
+                                                checked={selectedTopics.includes(topics[key])}
+                                            />
+                                            <label className="ml-3" htmlFor={key}>
+                                                {topics[key]}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="bg-blue-600 p-1 px-2 rounded-md hover:bg-blue-800">
+                                    <button onClick={handleTakeTestClick}>
+                                        {isLoading ? 'Loading Questions...' : 'Take test'}
+                                    </button>
                                 </div>
                             </div>
-                        }
-                    </div>
+                            {
+                                testExists &&
+                                <div className="mt-5">
+                                    <div className="p-2 text-center rounded-md mb-1">Results of taken test</div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full rounded-md text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <tr>
+                                                    <th scope="col" className="px-6 py-3">
+                                                        S.N
+                                                    </th>
+                                                    {/* <th scope="col" className="px-6 py-3">
+                                                        Starts
+                                                    </th>
+                                                    <th scope="col" className="px-6 py-3">
+                                                        Ends
+                                                    </th> */}
+                                                    <th scope="col" className="px-6 py-3">
+                                                        Score
+                                                    </th>
+                                                    <th scope="col" className="px-6 py-3">
+
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    testStat.map((test, index) => (
+                                                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                {testCounter})
+                                                            </th>
+                                                            {/* <td className="px-6 py-4">
+                                                                {test.testStartsTime}
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                {test.testEndsTime}
+                                                            </td> */}
+                                                            <td className="px-6 py-4">
+                                                                {test.score}
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                {
+
+                                                                    testCounter++ > difference ?
+                                                                        <button
+                                                                            className="px-2 py-1 bg-pink-300 rounded-md shadow-sm text-black"
+                                                                            onClick={
+                                                                                () => {
+                                                                                    openPopup(takenTestCounter)
+                                                                                    setTakenTestCounter(prev => prev + 1)
+                                                                                }
+                                                                            }>
+                                                                            Result
+                                                                        </button>
+                                                                        : ""
+
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                 }
 
                 <div className="flex flex-col gap-2">
@@ -270,7 +319,9 @@ function Question() {
         setTestStartsTime(today.format('ddd, MMM, YYYY, hh:mm:ss A'));
 
         axios.get(`${base_url}/questions/all/30`, {
-            withCredentials: true
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
         })
             .then(function (response) {
 
@@ -290,9 +341,12 @@ function Question() {
                 setLoading(false); // Set loading to false regardless of success or error
             });
 
-        setTimeout(() => {
-            handleSubmitButtonClick()
+        const timeoutId = setTimeout(() => {
+            handleSubmitButtonClick();
         }, 900000);
+
+        // Cleanup function to clear the timeout when the component is unmounted
+        return () => clearTimeout(timeoutId);
     }, []);
 
 
@@ -318,7 +372,11 @@ function Question() {
                 testStartsTime,
                 testEndsTime,
                 selectedTopics: JSON.parse(localStorage.getItem("selectedTopics"))
-            }, { withCredentials: true });
+            }, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            });
             alert(`Successfully submitted. 
 Feel free to note down question that you don't know & go 
 through internet, youtube, books, etc
@@ -345,7 +403,7 @@ Consult with your teacher`)
                     <p>PM:{passMarks}</p>
                 </div>
             </div>
-            <div className="bg- p-1 m-2 shadow-xl bg-slate-600 rounded-md font-bold  text-white">
+            <div className="p-1 m-2 shadow-xl bg-slate-600 rounded-md font-bold  text-white">
                 <p><span className="text-red-900 font-bold text-xl">Note:</span></p>
                 <p><span className="text-red-800 font-bold">a)</span> Before 15 minutes you have to submit answer, otherwise automatically solved questions will be submitted.</p>
                 <p><span className="text-red-800 font-bold">b)</span> There are some questions that might you don't know, so don't feel overwhelming.</p>
