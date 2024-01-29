@@ -11,6 +11,10 @@ function Login() {
 
     // handling login
     async function handleLogin() {
+        if ((username || password) === "") {
+            alert("all field required")
+            return;
+        }
         setIsLoading(true)
         try {
             const response = await axios.post(`${base_url}/user/signin`, {
