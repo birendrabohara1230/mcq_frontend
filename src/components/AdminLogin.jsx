@@ -18,6 +18,7 @@ export default function AdminLogin() {
             alert("all field required")
             return;
         }
+        setIsLoading(true)
         try {
             await axios.post(`${base_url}/admin/signin`, {
                 username,

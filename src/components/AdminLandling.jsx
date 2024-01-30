@@ -8,87 +8,66 @@ export default function Students() {
     const navigate = useNavigate()
     const [users, setStudents] = useState([])
 
-    let counter = 1; // counter variable
-
     useEffect(() => {
-
         try {
             axios.get(`${base_url}/admin/users/all`, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("adminToken")
                 }
+            }).then(function (response) {
+                const studentsData = response.data
+                setStudents(studentsData.users);
+            }).catch(error => {
+                navigate("/admin")
+                return;
             })
-                .then(function (response) {
-                    const studentsData = response.data
-                    setStudents(studentsData.users);
-                })
-                .catch(error => {
-                    console.log(error)
-                    navigate("/admin")
-                })
         } catch (error) {
-            console.log(error);
+            console.log("birendra boahra")
+            navigate("/admin")
         }
-
     }, [])
+
+    function handleLogout() {
+        localStorage.removeItem("adminToken")
+        navigate("/admin")
+    }
 
 
     return (
         <>
-
-            <div className="flex flex-col overflow-x-auto m-1 bg-white">
-                <div className="sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full text-left text-sm font-light">
-                                <thead className="border-b font-medium dark:border-neutral-500">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-4">ID</th>
-                                        <th scope="col" className="px-6 py-4">Full Name</th>
-                                        <th scope="col" className="px-6 py-4">Grade</th>
-                                        <th scope="col" className="px-6 py-4">Gender</th>
-                                        <th scope="col" className="px-6 py-4">Test Score</th>
-                                        <th scope="col" className="px-6 py-4">Starts</th>
-                                        <th scope="col" className="px-4 py-4">Ends</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {users.map(user => (
-                                        user.testStat.map((test, index) => (
-                                            <tr key={`${user._id}-${test._id}`} className="border-b dark:border-neutral-500">
-                                                {index === 0 && (
-                                                    <>
-                                                        <td className="whitespace-nowrap px-6 py-4">{counter++}</td>
-                                                        <td className="whitespace-nowrap px-6 py-4">{user.fullName}</td>
-                                                        <td className="whitespace-nowrap px-6 py-4">{user.grade}</td>
-                                                        <td className="whitespace-nowrap px-6 py-4">{user.gender}</td>
-                                                    </>
-                                                )}
-                                                {index !== 0 && (
-                                                    <>
-                                                        <td className="whitespace-nowrap px-6 py-4"></td>
-                                                        <td className="whitespace-nowrap px-6 py-4"></td>
-                                                        <td className="whitespace-nowrap px-6 py-4"></td>
-                                                        <td className="whitespace-nowrap px-6 py-4"></td>
-                                                    </>
-                                                )}
-                                                <td className="whitespace-nowrap px-6 py-4">{test.score}</td>
-                                                <td className="whitespace-nowrap px-6 py-4">{test.testStartsTime}</td>
-                                                <td className="whitespace-nowrap px-4 py-4">{test.testEndsTime}</td>
-                                            </tr>
-                                        ))
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div className='flex justify-end text-white  mt-4 w-3/4 m-auto'>
+                <div>
+                    <button
+                        onClick={handleLogout}
+                        className="p-1 bg-blue-800 rounded-md px-2 hover:bg-blue-900 ">
+                        logout
+                    </button>
                 </div>
             </div>
-            <div className="mt-4 text-center">
-                <button onClick={() => window.print()} className="bg-blue-500 text-white py-2 px-4 rounded">Print Table</button>
+            <div className='w-3/4 m-auto mt-10 mb-10 grid grid-cols-1 sm:grid-cols-12 text-white gap-4 items-center'>
+                {
+                    users.map((user, index) => (
+                        <>
+                            <div key={user._id} className='p-2 bg-gradient-to-r from-emerald-500 to-emerald-900 font-extrabold sm:col-span-4 rounded-md'>
+                                <p>Name:{user.fullName} </p>
+                                <p>Grade: {user.grade} </p>
+                                <p>Gender: {user.gender} </p>
+                            </div>
+                            <div key={Math.random()} className='p-1 bg-gradient-to-r from-stone-500 to-stone-700 sm:col-span-5 rounded-md'>
+                                {
+                                    user.testStat.map((test, index) => (
+                                        <div key={index} className='m-1 p-1 bg-slate-800 rounded-md'>
+                                            <div key={Math.random()}>Starts:{test.testStartsTime}</div>
+                                            <div key={Math.random()}>Ends:{test.testEndsTime}</div>
+                                            <div key={Math.random()}>Score:{test.score}</div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </>
+                    ))
+                }
             </div>
-
         </>
     );
 }
