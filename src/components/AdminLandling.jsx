@@ -7,6 +7,7 @@ export default function Students() {
 
     const navigate = useNavigate()
     const [users, setStudents] = useState([])
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
         try {
@@ -17,6 +18,7 @@ export default function Students() {
             }).then(function (response) {
                 const studentsData = response.data
                 setStudents(studentsData.users);
+                setDataLoaded(true);
             }).catch(error => {
                 navigate("/admin")
                 return;
@@ -32,6 +34,13 @@ export default function Students() {
         navigate("/admin")
     }
 
+    if (!dataLoaded) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-black">
+                <div className="animate-spin rounded-full border-t-4 border-white border-opacity-25 h-12 w-12"></div>
+            </div>
+        )
+    }
 
     return (
         <>
