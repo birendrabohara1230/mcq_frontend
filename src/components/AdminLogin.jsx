@@ -8,11 +8,16 @@ export default function AdminLogin() {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const [flag, setFlag] = useState(false)
     const navigate = useNavigate()
 
 
     async function handleLogin() {
+        if ((username || password) === "") {
+            alert("all field required")
+            return;
+        }
         try {
             await axios.post(`${base_url}/admin/signin`, {
                 username,
@@ -20,8 +25,8 @@ export default function AdminLogin() {
             },
             )
                 .then(response => {
+                    localStorage.setItem("adminToken", response.data.adminAccessToken)
                     navigate("/adminHome")
-                    localStorage.setItem("adminToken")
                 })
                 .catch(error => {
                     navigate("/admin")
@@ -32,6 +37,8 @@ export default function AdminLogin() {
             setTimeout(() => {
                 setFlag(false)
             }, 3000);
+        } finally {
+            setIsLoading(true)
         }
     }
 
@@ -70,7 +77,7 @@ export default function AdminLogin() {
                             className="text-white bg-slate-900 p-2 px-4  rounded-lg cursor-pointer hover:bg-slate-800"
                             onClick={handleLogin}
                         >
-                            Login
+                            {isLoading ? 'Logging in...' : 'Login'}
                         </button>
                     </div>
                 </div>
