@@ -7,17 +7,22 @@ export default function Students() {
 
     const navigate = useNavigate()
     const [users, setStudents] = useState([])
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(null)
     const [dataLoaded, setDataLoaded] = useState(false);
+    const pageSize = 10
 
     useEffect(() => {
         try {
-            axios.get(`${base_url}/admin/users/all`, {
+            axios.get(`${base_url}/admin/users/all?page=${page}&pageSize=${pageSize}`, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("adminToken")
                 }
             }).then(function (response) {
                 const studentsData = response.data
                 setStudents(studentsData.users);
+                setTotalPages(studentsData.totalPages)
+                console.log(studentsData.totalPages)
                 setDataLoaded(true);
             }).catch(error => {
                 navigate("/admin")
@@ -27,7 +32,7 @@ export default function Students() {
             console.log("birendra boahra")
             navigate("/admin")
         }
-    }, [])
+    }, [page, pageSize])
 
     function handleLogout() {
         localStorage.removeItem("adminToken")
@@ -76,6 +81,26 @@ export default function Students() {
                         </>
                     ))
                 }
+            </div>
+            <div className='text-white flex justify-center'>
+                <div className='py-1 px-3 bg-blue-800 rounded-md m-3 hover:bg-blue-950'>
+                    <button
+                        onClick={() => setPage(page - 1)}
+                        disabled={page === 1}
+                        className={page === 1 ? `text-black` : ""}
+                    >
+                        Prev
+                    </button>
+                </div>
+                <div className='py-1 px-2 m-3'>{page}</div>
+                <div className='py-1 px-3 bg-blue-800 rounded-md m-3 hover:bg-blue-950'>
+                    <button
+                        onClick={() => setPage(page + 1)}
+                        disabled={page === totalPages}
+                        className={page === totalPages ? `text-black` : ""}
+                    >Next
+                    </button>
+                </div>
             </div>
         </>
     );
