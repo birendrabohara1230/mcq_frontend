@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { base_url } from './BaseURL'
+import * as XLSX from 'xlsx';
+
+
 
 export default function Students() {
 
@@ -10,11 +13,12 @@ export default function Students() {
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(null)
     const [dataLoaded, setDataLoaded] = useState(false);
+    const [filter, setFilter] = useState("")
     const pageSize = 10
 
     useEffect(() => {
         try {
-            axios.get(`${base_url}/admin/users/all?page=${page}&pageSize=${pageSize}`, {
+            axios.get(`${base_url}/admin/users/all?page=${page}&pageSize=${pageSize}&filter=${filter}`, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("adminToken")
                 }
@@ -22,17 +26,44 @@ export default function Students() {
                 const studentsData = response.data
                 setStudents(studentsData.users);
                 setTotalPages(studentsData.totalPages)
-                console.log(studentsData.totalPages)
                 setDataLoaded(true);
             }).catch(error => {
                 navigate("/admin")
                 return;
             })
         } catch (error) {
-            console.log("birendra boahra")
             navigate("/admin")
         }
-    }, [page, pageSize])
+    }, [page, pageSize, filter])
+
+
+    async function fetchUserDataForExport() {
+        try {
+            const response = await axios.get(`${base_url}/admin/users/export/all`, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("adminToken")
+                }
+            })
+            exportToExcel(response.data.dataToExport, "student_result")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const exportToExcel = (data, fileName) => {
+        const ws = XLSX.utils.json_to_sheet(data);
+        ws['!cols'] = Array.from({ length: XLSX.utils.decode_range(ws['!ref']).e.c + 1 }, () => ({ width: 15 }));
+
+        // Add headers
+        ws['A1'].v = 'Full Name';
+        ws['B1'].v = 'Grade';
+        ws['C1'].v = 'Gender';
+        ws['D1'].v = 'Test Score';
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+        XLSX.writeFile(wb, `${fileName}.xlsx`);
+    }
+
 
     function handleLogout() {
         localStorage.removeItem("adminToken")
@@ -58,6 +89,25 @@ export default function Students() {
                     </button>
                 </div>
             </div>
+            <div className='w-3/4 mt-5 m-auto flex  gap-5  justify-between' >
+                <div>
+                    <input
+                        className='p-2 rounded-md outline-none font-bold'
+                        type="text" placeholder='enter name'
+                        onChange={(e) => {
+                            setFilter(e.target.value)
+                        }}
+                    />
+                </div>
+                <div>
+                    <button
+                        onClick={fetchUserDataForExport}
+                        className='text-white p-2 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-extrabold rounded-md cursor-pointer hidden sm:block'>Export result</button>
+                </div>
+            </div>
+
+
+
             <div className='w-3/4 m-auto mt-10 mb-10 grid grid-cols-1 sm:grid-cols-12 text-white gap-4 items-center'>
                 {
                     users.map((user, index) => (
@@ -82,7 +132,9 @@ export default function Students() {
                     ))
                 }
             </div>
-            <div className='text-white flex justify-center'>
+
+
+            <div className='text-white flex justify-center mb-10'>
                 <div className='py-1 px-3 bg-blue-800 rounded-md m-3 hover:bg-blue-950'>
                     <button
                         onClick={() => setPage(page - 1)}
@@ -97,7 +149,7 @@ export default function Students() {
                     <button
                         onClick={() => setPage(page + 1)}
                         disabled={page === totalPages}
-                        className={page === totalPages ? `text-black` : ""}
+                        className={(page === totalPages) || (0 === totalPages) ? `text-black` : ""}
                     >Next
                     </button>
                 </div>

@@ -75,7 +75,7 @@ export default function AdminLogin() {
                 <div className="flex justify-evenly">
                     <div>
                         <button
-                            className="text-white bg-slate-900 p-2 px-4  rounded-lg cursor-pointer hover:bg-slate-800"
+                            className="text-white bg-slate-900 p-2 px-4 hover:bg-green-800  rounded-lg cursor-pointer"
                             onClick={handleLogin}
                         >
                             {isLoading ? 'Logging in...' : 'Login'}
