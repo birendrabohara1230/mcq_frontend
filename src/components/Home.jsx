@@ -153,7 +153,7 @@ export function Home() {
             <div className="flex justify-between text-white p-3 gap-5 w-1/2 m-auto max-sm:w-full">
                 <div>
                     <img
-                        className="rounded-full w-48 h-48"
+                        className="rounded-full w-32 h-32"
                         src={user.studImage || "https://res.cloudinary.com/drmynjjhg/image/upload/v1705393573/acief5thhfdkz6sea6tf.jpg"}
                         width={80} alt="Birendra Bohara"
                     />
