@@ -150,7 +150,7 @@ Password: ${password}`);
                                 hover:text-green-700"
                                 disabled={isLoading} // Disable the button while loading
                             >
-                                {isLoading ? 'Signing up...' : 'Signup'}
+                                {isLoading ? 'Wait 1 min' : 'Signup'}
                             </button>
                         </div>
                     </div>
