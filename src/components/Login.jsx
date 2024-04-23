@@ -47,7 +47,7 @@ function Login() {
                         ""
                     )
                 }
-                 <h4 className="text-white">Welcome To MCQ Test System</h4>
+                 <h4 className="text-white text-center mb-4">Welcome To MCQ Test System</h4>
                 <input className="p-2 text-white bg-slate-900 rounded-md m-1"
                     type="text"
                     placeholder="username"
