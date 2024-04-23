@@ -78,7 +78,7 @@ export default function AdminLogin() {
                             className="text-white bg-slate-900 p-2 px-4 hover:bg-green-800  rounded-lg cursor-pointer"
                             onClick={handleLogin}
                         >
-                            {isLoading ? 'Logging in...' : 'Login'}
+                            {isLoading ? 'Wait 1 min' : 'Login'}
                         </button>
                     </div>
                 </div>
