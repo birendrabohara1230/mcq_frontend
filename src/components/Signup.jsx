@@ -65,6 +65,7 @@ Password: ${password}`);
                     ) : (
                         ""
                     )}
+                    <h3 className="text-white text-center mb-4">Fill the details.</h3>
                     <input className="p-2 text-white bg-slate-900 rounded-md m-1"
                         type="text"
                         placeholder="full name"
@@ -105,8 +106,8 @@ Password: ${password}`);
                     />
 
                     <div className="flex items-center m-1 p-1 gap-1">
-                        <input type="file" className="hidden" id="customFileInput"
-                            onChange={(e) => handleFileChange(e)}
+                        <input type="file" className="hidden" id="customFileInput" accept="image/*"
+                            onChange={(e) => handleFileChange(e)
                         />
                         <label htmlFor="customFileInput" className="px-2 py-2 bg-slate-900 text-white rounded-md cursor-pointer hover:bg-green-600">
                             Choose Photo
