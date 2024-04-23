@@ -61,7 +61,7 @@ Password: ${password}`);
             }}>
                 <div className="p-10 bg-slate-700 mt-10 rounded-3xl shadow-xl flex flex-col gap-2">
                     {flag ? (
-                        <p className="text-white">All Field Required</p>
+                        <p className="text-white text-center">All Field Required</p>
                     ) : (
                         ""
                     )}
