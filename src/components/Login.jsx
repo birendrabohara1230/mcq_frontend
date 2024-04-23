@@ -39,7 +39,6 @@ function Login() {
 
     return (
         <div className="flex justify-center m-4">
-            <h4>Welcome To MCQ Test System</h4>
             <div className="p-10 bg-slate-700 mt-10 rounded-3xl shadow-xl flex flex-col gap-2">
                 {
                     flag ? (
@@ -48,6 +47,7 @@ function Login() {
                         ""
                     )
                 }
+                 <h4 className="text-white">Welcome To MCQ Test System</h4>
                 <input className="p-2 text-white bg-slate-900 rounded-md m-1"
                     type="text"
                     placeholder="username"
